@@ -1,4 +1,4 @@
-# shard_land
+# Shard Land
 [![GitHub release](https://img.shields.io/github/release/da1nerd/shard_land.svg)](https://github.com/da1nerd/shard_land/releases)
 [![Build Status](https://travis-ci.com/da1nerd/shard_land.svg?branch=master)](https://travis-ci.com/da1nerd/shard_land)
 
