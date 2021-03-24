@@ -16,7 +16,7 @@ module GameScene
 
     def commands : Array(Command)
       super + [
-        Command.new("l", "Look around", self),
+        Command.new("l", "Look around", self.class),
       ]
     end
   end

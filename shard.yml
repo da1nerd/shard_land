@@ -9,6 +9,11 @@ targets:
   shard_land:
     main: src/shard_land.cr
 
+dependencies:
+  annotation:
+    github: grottopress/annotation.cr
+    commit: eb841fe
+
 crystal: 0.35.1
 
 license: MIT

@@ -1,7 +1,15 @@
-require "./command.cr"
+require "./commands/command.cr"
+require "./state.cr"
 
 # Represents some scene on the screen and can process commands
 abstract struct Scene
+  def initialize(@state : State)
+  end
+
+  def initialize
+    @state = State.new
+  end
+
   # Render the scene information
   abstract def render
 
@@ -19,20 +27,35 @@ abstract struct Scene
     end
     user_input = gets
 
-    # commands without a key will any raw input
+    # commands without a key will accept any raw input
     if commands.size == 1 && commands[0].key == nil
-      return {commands[0], user_input}
+      c = commands[0]
+      # validate raw input
+      until c.validate(@state, user_input)
+        puts c.description
+        user_input = gets
+      end
+      return render_sub_commands(c, user_input)
     end
 
     # find the command by key
     commands.each do |c|
       if user_input == c.key
-        if c.sub_commands.size > 0
-          return render_commands(c.sub_commands)
-        else
-          return {c, user_input}
-        end
+        return render_sub_commands(c, user_input)
       end
+    end
+
+    # invalid option. try again
+    puts %{Invalid option "#{user_input}". Please choose an option below:}
+    return render_commands(commands)
+  end
+
+  # Renders a command's sub-commands if it has any
+  private def render_sub_commands(command : Command, user_input : String?)
+    if command.sub_commands.size > 0
+      return render_commands(command.sub_commands)
+    else
+      return {command, user_input}
     end
   end
 
@@ -40,11 +63,13 @@ abstract struct Scene
   def run : Scene?
     render
     puts "---"
-    selection = self.render_commands(self.commands)
-    if s = selection
-      command, input = selection
-      command.execute(input)
-      return command.scene
+    selected_command = self.render_commands(self.commands)
+    if s = selected_command
+      command, input = selected_command
+      state = command.execute(@state, input)
+      if scene = command.scene
+        return scene.new(state)
+      end
     else
       return self
     end
