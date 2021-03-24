@@ -1,4 +1,4 @@
-require "annotation"
+require "../annotation"
 require "../scene.cr"
 require "../commands/command.cr"
 require "../menu.cr"

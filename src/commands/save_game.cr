@@ -1,6 +1,6 @@
 require "./command.cr"
 require "../state.cr"
-require "annotation"
+require "../annotation"
 require "file_utils"
 
 class Commands::SaveGame < Command

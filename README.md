@@ -1,6 +1,6 @@
 # shard_land
 [![GitHub release](https://img.shields.io/github/release/da1nerd/shard_land.svg)](https://github.com/da1nerd/shard_land/releases)
-[![Build Status](https://travis-ci.org/da1nerd/shard_land.svg?branch=master)](https://travis-ci.org/da1nerd/shard_land)
+[![Build Status](https://travis-ci.com/da1nerd/shard_land.svg?branch=master)](https://travis-ci.com/da1nerd/shard_land)
 
 
 A simple text RPG terminal game.

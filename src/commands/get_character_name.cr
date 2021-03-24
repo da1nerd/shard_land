@@ -1,6 +1,6 @@
 require "./command.cr"
 require "../state.cr"
-require "annotation"
+require "../annotation"
 
 module Commands
   class GetCharacterName < Command

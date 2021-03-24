@@ -1,6 +1,2 @@
 version: 2.0
-shards:
-  annotation:
-    git: https://github.com/grottopress/annotation.cr.git
-    version: 0.4.0+git.commit.eb841fe18eae29dcdb366945382d5008a60fd4b0
-
+shards: {}

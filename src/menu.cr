@@ -2,7 +2,7 @@ require "./scene.cr"
 require "./game_scene/mountain_top.cr"
 require "./commands/*"
 require "./state.cr"
-require "annotation"
+require "./annotation"
 
 struct Menu < Scene
   @[Override]

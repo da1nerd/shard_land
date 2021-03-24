@@ -1,7 +1,7 @@
 require "./command.cr"
 require "./get_character_name.cr"
 require "../state.cr"
-require "annotation"
+require "../annotation"
 
 module Commands
   class NewGame < Command
