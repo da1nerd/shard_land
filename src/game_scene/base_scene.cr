@@ -1,7 +1,7 @@
+require "annotation"
 require "../scene.cr"
 require "../commands/command.cr"
 require "../menu.cr"
-require "annotation"
 require "../state.cr"
 
 # Provides some default menu commands for game scenes

@@ -1,6 +1,4 @@
-require "./base_scene"
-require "annotation"
-require "../state.cr"
+require "./base_scene.cr"
 
 module GameScene
   struct MountainTop < BaseScene
@@ -14,13 +12,15 @@ module GameScene
       Mountain tops and snow stretch as far as the eye can see. A wasteland.
 
       "Perfect."
+
+      You notice a trail down the side of the mountain to your right.
       MSG
     end
 
     @[Override]
     def commands(state : State) : Array(Command)
       super + [
-        Command.new("l", "Look around", self.class),
+        Command.new("1", "Walk down the train", MountainTrail),
       ]
     end
   end

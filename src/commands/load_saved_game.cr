@@ -20,7 +20,6 @@ class Commands::LoadSavedGame < Command
       {% end %}
       end
     {% end %}
-    puts "Loaded game at scene #{new_state.scene}"
     return new_state
   end
 
