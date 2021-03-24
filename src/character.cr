@@ -1,6 +1,10 @@
+require "yaml"
+
 struct Character
-  @name : String
-  property name
+  include YAML::Serializable
+
+  @[YAML::Field(key: "name")]
+  property name : String
 
   def initialize(@name)
   end

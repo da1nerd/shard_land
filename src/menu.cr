@@ -1,7 +1,6 @@
 require "./scene.cr"
 require "./game_scene/mountain_top.cr"
-require "./commands/command.cr"
-require "./commands/new_game.cr"
+require "./commands/*"
 
 struct Menu < Scene
   def render
@@ -17,10 +16,12 @@ struct Menu < Scene
   end
 
   def commands : Array(Command)
-    [
+    options = [
       Commands::NewGame.new(GameScene::MountainTop).as(Command),
-      Command.new("o", "Open an existing game", GameScene::MountainTop),
-      Command.new("q", "Quite the program", nil),
+      Commands::SelectSavedGame.new(GameScene::MountainTop).as(Command),
     ]
+    options << Commands::SaveGame.new("s", "Save Game", self.class).as(Command) if !@state.character.name.empty?
+    options << Command.new("q", "Quite the program", nil)
+    return options
   end
 end

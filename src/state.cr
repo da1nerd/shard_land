@@ -1,8 +1,11 @@
 require "./character.cr"
+require "yaml"
 
 struct State
-  @character : Character
-  property character
+  include YAML::Serializable
+
+  @[YAML::Field(key: "character")]
+  property character : Character
 
   def initialize
     @character = Character.new("")
