@@ -1,19 +1,18 @@
 require "./command.cr"
+require "./get_character_name.cr"
 require "../state.cr"
 require "annotation"
 
-class Commands::NewGame < Command
-  @[Override]
-  def execute(state : State, user_input : String?) : State
-    puts "Your name is #{user_input}"
-    return state
-  end
-
-  @[Override]
-  def validate(state : State, user_input : String?) : Bool
-    if input = user_input
-      return !input.empty?
+module Commands
+  class NewGame < Command
+    def initialize(scene : Scene.class)
+      super("n", "Start a new game", GetCharacterName.new(scene).as(Command))
     end
-    return false
+
+    @[Override]
+    def execute(state : State, user_input : String?) : State
+      puts "We need to ask you a few questions first:"
+      return state
+    end
   end
 end

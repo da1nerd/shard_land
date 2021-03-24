@@ -17,7 +17,7 @@ abstract struct Scene
   abstract def commands : Array(Command)
 
   # Renders the list of commands and returns the chosen command
-  private def render_commands(commands : Array(Command)) : Tuple(Command, String?)?
+  private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)?
     commands.each do |c|
       if c.key
         puts "#{c.key} - #{c.description}"
@@ -35,40 +35,39 @@ abstract struct Scene
         puts c.description
         user_input = gets
       end
-      return render_sub_commands(c, user_input)
+      return execute_command(state, c, user_input)
     end
 
     # find the command by key
     commands.each do |c|
       if user_input == c.key
-        return render_sub_commands(c, user_input)
+        return execute_command(state, c, user_input)
       end
     end
 
     # invalid option. try again
     puts %{Invalid option "#{user_input}". Please choose an option below:}
-    return render_commands(commands)
+    return render_commands(state, commands)
   end
 
   # Renders a command's sub-commands if it has any
-  private def render_sub_commands(command : Command, user_input : String?)
+  private def execute_command(state : State, command : Command, user_input : String?)
+    new_state = command.execute(state, user_input)
     if command.sub_commands.size > 0
-      return render_commands(command.sub_commands)
+      return render_commands(new_state, command.sub_commands)
     else
-      return {command, user_input}
+      return {command, new_state}
     end
   end
 
   # Execute the scene and return the next scene
   def run : Scene?
     render
-    puts "---"
-    selected_command = self.render_commands(self.commands)
+    selected_command = self.render_commands(@state, self.commands)
     if s = selected_command
-      command, input = selected_command
-      state = command.execute(@state, input)
+      command, new_state = selected_command
       if scene = command.scene
-        return scene.new(state)
+        return scene.new(new_state)
       end
     else
       return self
