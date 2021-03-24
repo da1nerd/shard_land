@@ -1,8 +1,9 @@
 require "./menu.cr"
 
-scene = Menu.new
+game = {Menu.new, State.new}
 
 loop do
-  break unless scene
-  scene = scene.run
+  break unless game
+  scene, state = game
+  game = scene.run(state)
 end

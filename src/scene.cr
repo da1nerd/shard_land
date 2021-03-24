@@ -3,18 +3,11 @@ require "./state.cr"
 
 # Represents some scene on the screen and can process commands
 abstract struct Scene
-  def initialize(@state : State)
-  end
-
-  def initialize
-    @state = State.new
-  end
-
   # Render the scene information
   abstract def render
 
   # Returns an ordered list of commands available to the user.
-  abstract def commands : Array(Command)
+  abstract def commands(state : State) : Array(Command)
 
   # Renders the list of commands and returns the chosen command
   private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)?
@@ -31,7 +24,7 @@ abstract struct Scene
     if commands.size == 1 && commands[0].key == nil
       c = commands[0]
       # validate raw input
-      until c.validate(@state, user_input)
+      until c.validate(state, user_input)
         puts c.description
         user_input = gets
       end
@@ -60,17 +53,26 @@ abstract struct Scene
     end
   end
 
-  # Execute the scene and return the next scene
-  def run : Scene?
+  # Persists the scene information to the state
+  # so we can keep track of a user's progress
+  # between saves
+  def persist_scene_state(state : State) : State
+    state.scene = self.class.name
+    return state
+  end
+
+  # Execute the scene and return the next scene and state
+  def run(state : State) : Tuple(Scene, State)?
+    state = self.persist_scene_state(state)
     render
-    selected_command = self.render_commands(@state, self.commands)
+    selected_command = self.render_commands(state, self.commands(state))
     if s = selected_command
       command, new_state = selected_command
       if scene = command.scene
-        return scene.new(new_state)
+        return {scene.new, new_state}
       end
     else
-      return self
+      return {self, state}
     end
   end
 end

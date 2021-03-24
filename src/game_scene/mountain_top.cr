@@ -1,7 +1,10 @@
 require "./base_scene"
+require "annotation"
+require "../state.cr"
 
 module GameScene
   struct MountainTop < BaseScene
+    @[Override]
     def render
       puts <<-MSG
       You are falling. The sky is shattering around you like glass. Blackness covers you. Then nothing.
@@ -14,7 +17,8 @@ module GameScene
       MSG
     end
 
-    def commands : Array(Command)
+    @[Override]
+    def commands(state : State) : Array(Command)
       super + [
         Command.new("l", "Look around", self.class),
       ]

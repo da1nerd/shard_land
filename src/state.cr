@@ -7,6 +7,9 @@ struct State
   @[YAML::Field(key: "character")]
   property character : Character
 
+  @[YAML::Field(scene: "scene")]
+  property scene : String?
+
   def initialize
     @character = Character.new("")
   end
