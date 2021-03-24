@@ -1,14 +1,25 @@
 # shard_land
+[![GitHub release](https://img.shields.io/github/release/da1nerd/shard_land.svg)](https://github.com/da1nerd/shard_land/releases)
+[![Build Status](https://travis-ci.org/da1nerd/shard_land.svg?branch=master)](https://travis-ci.org/da1nerd/shard_land)
 
-A console RPG in the midst of a broken world.
+
+A simple text RPG terminal game.
 
 ## Installation
 
-TODO: Write installation instructions here
+Build the executable.
+
+```bash
+shards build
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Simply run the compiled code.
+
+```bash
+./bin/shard_land
+```
 
 ## Development
 
