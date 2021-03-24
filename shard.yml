@@ -1,0 +1,14 @@
+name: shard_land
+description: A console RPG in the midst of a broken world.
+version: 0.1.0
+
+authors:
+  - Joel <da1nerd@pm.me>
+
+targets:
+  shard_land:
+    main: src/shard_land.cr
+
+crystal: 0.35.1
+
+license: MIT
