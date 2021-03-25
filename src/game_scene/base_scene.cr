@@ -1,8 +1,4 @@
-require "../annotation"
-require "../scene.cr"
-require "../commands/command.cr"
-require "../menu.cr"
-require "../state.cr"
+require "../core/*"
 
 # Provides some default menu commands for game scenes
 abstract struct GameScene::BaseScene < Scene

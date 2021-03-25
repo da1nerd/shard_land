@@ -1,21 +1,29 @@
 require "./scene.cr"
-require "./game_scene/mountain_top.cr"
 require "./commands/*"
 require "./state.cr"
 require "./annotation"
 
 struct Menu < Scene
-  @[Override]
-  def render
-    puts <<-MSG
+  def initialize(@description : String, @starting_scene : Scene.class)
+  end
+
+  # TODO: this is a hack
+  def initialize
+    @description = <<-MSG
     **************
     * Shard Land *
     **************
-
+  
     An RPG that is going to be awesome!
-
+  
     Choose an option below:
     MSG
+    @starting_scene = self.class
+  end
+
+  @[Override]
+  def render
+    puts @description
   end
 
   @[Override]
@@ -27,8 +35,8 @@ struct Menu < Scene
   @[Override]
   def commands(state : State) : Array(Command)
     options = [
-      Commands::NewGame.new(GameScene::MountainTop).as(Command),
-      Commands::SelectSavedGame.new(GameScene::MountainTop).as(Command),
+      Commands::NewGame.new(@starting_scene).as(Command),
+      Commands::SelectSavedGame.new(@starting_scene).as(Command),
     ]
     # TODO: this isn't the best way to check if a game is loaded
     if !state.character.name.empty?

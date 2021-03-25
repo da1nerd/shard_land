@@ -1,4 +1,5 @@
 require "./base_scene.cr"
+require "./mountain_trail.cr"
 
 module GameScene
   struct MountainTop < BaseScene

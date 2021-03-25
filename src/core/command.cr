@@ -1,4 +1,4 @@
-require "../state.cr"
+require "./state.cr"
 
 # Represents a user command.
 # Commands are displayed after a `Scene` and allows the user to

@@ -1,4 +1,4 @@
-require "./command.cr"
+require "../command.cr"
 require "../state.cr"
 require "../annotation"
 

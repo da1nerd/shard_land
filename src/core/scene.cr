@@ -1,4 +1,4 @@
-require "./commands/command.cr"
+require "./command.cr"
 require "./state.cr"
 
 # Represents some scene on the screen and can process commands

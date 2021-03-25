@@ -1,4 +1,4 @@
-require "./command.cr"
+require "../command.cr"
 require "./get_character_name.cr"
 require "../state.cr"
 require "../annotation"
