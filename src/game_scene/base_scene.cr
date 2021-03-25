@@ -1,6 +1,6 @@
 require "../engine/*"
 
-# Provides some default menu commands for game scenes
+# Provides some default commands for game scenes
 abstract struct GameScene::BaseScene < Scene
   @[Override]
   def commands(state : State) : Array(Command)

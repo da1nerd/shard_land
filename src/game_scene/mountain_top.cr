@@ -4,7 +4,7 @@ require "./mountain_trail.cr"
 module GameScene
   struct MountainTop < BaseScene
     @[Override]
-    def render
+    def render(state : State)
       puts <<-MSG
       You are falling. The sky is shattering around you like glass. Blackness covers you. Then nothing.
 

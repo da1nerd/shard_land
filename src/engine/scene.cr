@@ -1,15 +1,30 @@
 require "./command.cr"
 require "./state.cr"
 
-# Represents some scene on the screen and can process commands
+# Represents a single scene in the game.
+# Players navigate through the game by visiting different scenes.
+# Scenes describe the environment and provide the user with different `Command` options.
 abstract struct Scene
-  # Render the scene information
-  abstract def render
+  # Render the scene description.
+  #
+  # > Note: There is no need to explain the scene's available options
+  #  since `Command` options are automatically generated from `#commands`.
+  #
+  # # Example:
+  #
+  # ```
+  # def render(state : State)
+  #   puts "You are in an empty room. To your left is an open door."
+  # end
+  # ```
+  #
+  abstract def render(state : State)
 
   # Returns an ordered list of commands available to the user.
+  # These commands will be displayed after the scene description produced in `#render`
   abstract def commands(state : State) : Array(Command)
 
-  # Renders the list of commands and returns the chosen command
+  # Renders the list of *commands* and returns the command chosen by the user.
   private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)?
     commands.each do |c|
       if c.key
@@ -43,7 +58,7 @@ abstract struct Scene
     return render_commands(state, commands)
   end
 
-  # Renders a command's sub-commands if it has any
+  # Executes the *command* and displays it's sub-commands if it has any.
   private def execute_command(state : State, command : Command, user_input : String?)
     new_state = command.execute(state, user_input)
     if command.sub_commands.size > 0
@@ -54,8 +69,19 @@ abstract struct Scene
   end
 
   # Persists the scene information to the state
-  # so we can keep track of a user's progress
-  # between saves
+  # so we can keep track of a player's progress between saves.
+  #
+  # # Example:
+  #
+  # If we also had a *timstamp* field on `State` we could set it here
+  #
+  # ```
+  # protected def persist_scene_state(state : State) : State
+  #   state = super(state)
+  #   state.timstamp = Time.utc
+  #   return state
+  # end
+  # ```
   def persist_scene_state(state : State) : State
     state.scene = self.class.name
     return state
@@ -64,7 +90,7 @@ abstract struct Scene
   # Execute the scene and return the next scene and state
   def run(state : State) : Tuple(Scene, State)?
     state = self.persist_scene_state(state)
-    render
+    render(state)
     selected_command = self.render_commands(state, self.commands(state))
     if s = selected_command
       command, new_state = selected_command

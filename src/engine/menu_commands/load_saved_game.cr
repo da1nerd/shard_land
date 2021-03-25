@@ -1,6 +1,7 @@
 require "../command.cr"
 require "../state.cr"
 require "../annotation"
+require "../save_util.cr"
 
 class MenuCommands::LoadSavedGame < Command
   def initialize(@save_path : String, key, description, default_scene : Scene.class)
@@ -9,7 +10,7 @@ class MenuCommands::LoadSavedGame < Command
 
   @[Override]
   def execute(state : State, user_input : String?) : State
-    new_state = load_state
+    new_state = SaveUtil.load_state(@save_path)
     # load the proper scene
     {% begin %}
       case new_state.scene
@@ -20,10 +21,5 @@ class MenuCommands::LoadSavedGame < Command
       end
     {% end %}
     return new_state
-  end
-
-  def load_state : State
-    data = File.read(@save_path)
-    return State.from_yaml(data)
   end
 end

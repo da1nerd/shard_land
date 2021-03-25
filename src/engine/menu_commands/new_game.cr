@@ -3,6 +3,7 @@ require "./get_character_name.cr"
 require "../state.cr"
 require "../annotation"
 
+# Starts a new game after collecting some player information.
 module MenuCommands
   class NewGame < Command
     def initialize(scene : Scene.class)

@@ -2,19 +2,22 @@ require "../command.cr"
 require "../state.cr"
 require "../annotation"
 require "./load_saved_game.cr"
+require "../save_util.cr"
 
+# Handles displaying a list of saved games, and allows the
+# player select one to continue.
 class MenuCommands::SelectSavedGame < Command
-  def initialize(@starting_scene : Scene.class)
+  # The player is taken to *default_scene* if there is a problem loading their saved scene.
+  def initialize(@default_scene : Scene.class)
     super("o", "Open an existing game", [] of Command)
   end
 
   @[Override]
   def execute(state : State, user_input : String?) : State
     puts "Choose a saved game:"
-    # TODO: load games from file system
-    list_saved_games.each_with_index do |save, index|
+    SaveUtil.list_saves.each_with_index do |save, index|
       name, path = save
-      @sub_commands << LoadSavedGame.new(path, "#{index + 1}", name, @starting_scene)
+      @sub_commands << LoadSavedGame.new(path, "#{index + 1}", name, @default_scene)
     end
     return state
   end
@@ -25,12 +28,5 @@ class MenuCommands::SelectSavedGame < Command
       return !input.empty?
     end
     return false
-  end
-
-  def list_saved_games : Array(Tuple(String, String))
-    saves = Dir.glob(File.join(Path.home, ".shard_land/*.yml"))
-    saves.map do |path|
-      {File.basename(path, ".yml"), path}
-    end
   end
 end

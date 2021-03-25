@@ -14,7 +14,6 @@ after_success:
 deploy:
   provider: netlify
   site: 9d6236c2-9c11-41a1-8940-2c80391d0f7b
-  cleanup: false
   dir: docs
   prod: true
   edge: true

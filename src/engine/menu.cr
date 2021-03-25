@@ -3,12 +3,17 @@ require "./menu_commands/*"
 require "./state.cr"
 require "./annotation"
 
+# A special scene that provides some basic game controls to the user
+# such as starting a new game or opening a saved game.
+#
+# The menu *description* introduces the player to your game.
+# The *starting_scene* is where players will go first when starting a new game.
 struct Menu < Scene
   def initialize(@description : String, @starting_scene : Scene.class)
   end
 
   # Provides a default initializer to make the compiler happy.
-  # Since elsewhere we are initializing instances of `Scene.class` without any arguments
+  # Since elsewhere we are initializing instances of `Scene.class` without any arguments,
   # the compile expects all instances of `Scene` to be initialized with no arguments.
   def initialize
     @description = <<-MSG
@@ -17,7 +22,7 @@ struct Menu < Scene
     **************
   
     This is the default menu screen.
-    You should override this:
+    You should instead initalize the menu with arguments:
 
     Menu.new(description: "Hello world!", starting_scene: HelloWorldScene)
   
@@ -27,13 +32,13 @@ struct Menu < Scene
   end
 
   @[Override]
-  def render
+  def render(state : State)
     puts @description
   end
 
+  # Overrides the normal behavior so that navigating to the menu does not interupt the user's current `Scende` location.
   @[Override]
   def persist_scene_state(state : State) : State
-    # The menu scene should never be stored in the state
     return state
   end
 
@@ -53,7 +58,7 @@ struct Menu < Scene
   end
 
   # Looks up a scene class by name
-  def get_scene(name : String?) : Scene.class | Nil
+  private def get_scene(name : String?) : Scene.class | Nil
     {% begin %}
       case name
       {% for s in Scene.all_subclasses.reject &.abstract? %}
