@@ -3,7 +3,15 @@
 [![Build Status](https://travis-ci.com/da1nerd/shard_land.svg?branch=master)](https://travis-ci.com/da1nerd/shard_land)
 
 
-A simple text RPG terminal game.
+A simple text RPG terminal game/engine. I don't have a specific vision for this project.
+It's just a fun way to experiment with simple game logic and command line interfaces.
+
+## Features
+
+* Save/Restore games
+* Scene based tree-like game structure
+* Immutable game state - functional programming style
+* Chainable user commands
 
 ## Installation
 
@@ -21,6 +29,8 @@ Simply run the compiled code.
 ./bin/shard_land
 ```
 
+## Development
+
 The engine code is mostly abstracted.
 I may pull it out into a lib shard in the future so people can easily make their own games.
 
@@ -37,9 +47,26 @@ struct Character
 end
 ```
 
-## Development
+Players interact with a scene via `Commands`. These `Commands` can be used to change the state, navigate to a new scene, or both.
 
-TODO: Write development instructions here
+> Look at `./src/engine/menu.cr` for an example of how commands can be used.
+
+```crystal
+require "./engine/*"
+
+class LevelUpCommand < Command
+  def execute(state : State, user_input : String?) : State
+    state.character.skill += 1
+    return state
+  end
+end
+
+# elsewhere, in a scene...
+LevelUpCommand.new("+", "Level up before going to the next scene!", NextScene)
+# The character levels up before navigating to the `NextScene`
+```
+
+More details can be found in the [docs](https://shard-land.netlify.app/).
 
 ## Contributing
 
