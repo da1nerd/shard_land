@@ -3,8 +3,10 @@
 [![Build Status](https://travis-ci.com/da1nerd/shard_land.svg?branch=master)](https://travis-ci.com/da1nerd/shard_land)
 
 
-A simple text RPG terminal game/engine. I don't have a specific vision for this project.
-It's just a fun way to experiment with simple game logic and command line interfaces.
+A simple text RPG terminal game/engine.
+This is just a fun way to experiment with simple game logic and command line interfaces.
+
+It's pretty simple right now, but it could be a fun community developed game. PRs and ideas are welcome!
 
 ## Features
 
