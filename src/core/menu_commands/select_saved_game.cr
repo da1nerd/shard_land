@@ -3,7 +3,7 @@ require "../state.cr"
 require "../annotation"
 require "./load_saved_game.cr"
 
-class Commands::SelectSavedGame < Command
+class MenuCommands::SelectSavedGame < Command
   def initialize(@starting_scene : Scene.class)
     super("o", "Open an existing game", [] of Command)
   end

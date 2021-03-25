@@ -3,7 +3,7 @@ require "../state.cr"
 require "../annotation"
 require "file_utils"
 
-class Commands::SaveGame < Command
+class MenuCommands::SaveGame < Command
   @[Override]
   def execute(state : State, user_input : String?) : State
     save_dir = File.join(Path.home, ".shard_land")

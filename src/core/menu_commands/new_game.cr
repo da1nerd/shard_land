@@ -3,7 +3,7 @@ require "./get_character_name.cr"
 require "../state.cr"
 require "../annotation"
 
-module Commands
+module MenuCommands
   class NewGame < Command
     def initialize(scene : Scene.class)
       super("n", "Start a new game", GetCharacterName.new(scene).as(Command))

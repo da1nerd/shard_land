@@ -2,7 +2,7 @@ require "../command.cr"
 require "../state.cr"
 require "../annotation"
 
-class Commands::LoadSavedGame < Command
+class MenuCommands::LoadSavedGame < Command
   def initialize(@save_path : String, key, description, default_scene : Scene.class)
     super(key, description, default_scene)
   end

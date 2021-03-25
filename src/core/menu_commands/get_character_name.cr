@@ -2,7 +2,7 @@ require "../command.cr"
 require "../state.cr"
 require "../annotation"
 
-module Commands
+module MenuCommands
   class GetCharacterName < Command
     def initialize(scene : Scene.class)
       super("What is your name?", scene)

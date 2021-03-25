@@ -1,5 +1,5 @@
 require "./scene.cr"
-require "./commands/*"
+require "./menu_commands/*"
 require "./state.cr"
 require "./annotation"
 
@@ -7,14 +7,19 @@ struct Menu < Scene
   def initialize(@description : String, @starting_scene : Scene.class)
   end
 
-  # TODO: this is a hack
+  # Provides a default initializer to make the compiler happy.
+  # Since elsewhere we are initializing instances of `Scene.class` without any arguments
+  # the compile expects all instances of `Scene` to be initialized with no arguments.
   def initialize
     @description = <<-MSG
     **************
     * Shard Land *
     **************
   
-    An RPG that is going to be awesome!
+    This is the default menu screen.
+    You should override this:
+
+    Menu.new(description: "Hello world!", starting_scene: HelloWorldScene)
   
     Choose an option below:
     MSG
@@ -35,13 +40,13 @@ struct Menu < Scene
   @[Override]
   def commands(state : State) : Array(Command)
     options = [
-      Commands::NewGame.new(@starting_scene).as(Command),
-      Commands::SelectSavedGame.new(@starting_scene).as(Command),
+      MenuCommands::NewGame.new(@starting_scene).as(Command),
+      MenuCommands::SelectSavedGame.new(@starting_scene).as(Command),
     ]
     # TODO: this isn't the best way to check if a game is loaded
     if !state.character.name.empty?
-      options << Commands::SaveGame.new("s", "Save Game", self.class).as(Command)
-      options << Commands::SaveGame.new("r", "Resume Game", self.get_scene(state.scene)).as(Command)
+      options << MenuCommands::SaveGame.new("s", "Save Game", self.class).as(Command)
+      options << MenuCommands::SaveGame.new("r", "Resume Game", self.get_scene(state.scene)).as(Command)
     end
     options << Command.new("q", "Quite the program", nil)
     return options
