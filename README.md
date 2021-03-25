@@ -21,6 +21,22 @@ Simply run the compiled code.
 ./bin/shard_land
 ```
 
+The engine code is mostly abstracted.
+I may pull it out into a lib shard in the future so people can easily make their own games.
+
+Game state is stored in `State` which has information about the `Character`
+and the current scene.
+You can inject extra properties into those structs to support custom functionality.
+
+```crystal
+struct Character
+  # Note: the Character struct is already serializable,
+  #  so you just need to serialize new fields.
+  @[YAML::Field(key: "skill")]
+  property skill : Int32
+end
+```
+
 ## Development
 
 TODO: Write development instructions here

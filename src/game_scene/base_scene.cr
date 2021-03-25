@@ -1,4 +1,4 @@
-require "../core/*"
+require "../engine/*"
 
 # Provides some default menu commands for game scenes
 abstract struct GameScene::BaseScene < Scene
