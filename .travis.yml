@@ -15,8 +15,6 @@ deploy:
   provider: netlify
   site: 9d6236c2-9c11-41a1-8940-2c80391d0f7b
   dir: docs
-  # only deploy on the `latest` matrix key
-  crystal: latest
   prod: true
   edge: true
   on:
