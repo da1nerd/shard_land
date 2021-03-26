@@ -1,5 +1,4 @@
-# Initializes the `Menu` and initial game `State`, and starts the game loop.
-# The game will run until a `Scene` returns nil.
+# Initializes the initial game `State`, and starts the game loop.
 #
 # # Example:
 #
