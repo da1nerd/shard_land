@@ -3,15 +3,20 @@
 # This command will only be executed if the player input matches the *key* value.
 class Commands::KeyCommand < Command
   def initialize(@key : String, description : String, scene : Scene.class | Nil)
-    super(description, scene)
+    describe description
+    goto scene
   end
 
-  def initialize(@key : String, description : String, sub_commands : Array(Command))
-    super(description, sub_commands)
+  def initialize(@key : String, description : String, sub_commands commands : Array(Command))
+    describe description
+    commands.each do |c|
+      sub_command c
+    end
   end
 
-  def initialize(@key : String, @description : String, sub_command : Command)
-    super(description, sub_command)
+  def initialize(@key : String, @description : String, sub_command command : Command)
+    describe description
+    sub_command command
   end
 
   @[Override]

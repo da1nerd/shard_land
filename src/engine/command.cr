@@ -2,13 +2,31 @@ require "./state.cr"
 
 # Represents a single `Scene` option.
 # Commands process user input in a scene and can either display a visible description, or operate invisibly.
+# Each instance of a command requires user input. So if you have three nested commands,
+# the user will be prompted for input three times one after another before continuing.
 #
-# A command will always produce a `Scene` or another command. The occurrence of a new `Scene` indicates
-# the player is finished in the current scene and will then navigate to the new scene.
+# # Example
+#
+# There are a couple of macros to help you define your command:
+# ```
+# class MyCommand < Command
+#   def initialize
+#     describe "This is my command"
+#     goto TheNextScene
+#     sub_command MySubCommand
+#     sub_command MyAltSubCommand
+#   end
+# end
+# ```
+#
+# It's important to note that a command's scene (defined with `goto`) can be ovewritten by a sub command.
+# Let's say for example that `MySubCommand` also defines a scene `SubScene`, while `MyAltSubCommand` does not.
+# If that sub command ends up being activated, the player will navigate to `SubScene` instead of `TheNextScene`.
+# However, if `MyAltSubCommand` is activated, the player will navigate to `TheNextScene`.
 abstract class Command
   @description : String?
   @scene : Scene.class | Nil
-  @sub_commands : Array(Command)
+  @sub_commands : Array(Command) = [] of Command
 
   # A description of the command.
   # This should help the player decide what to do.
@@ -23,26 +41,21 @@ abstract class Command
   # Then we rely on the subcommands to specify a scene to visit next.
   getter sub_commands
 
-  def initialize(@scene : Scene.class | Nil)
-    @sub_commands = [] of Command
+  # Adds a sub command
+  macro sub_command(command)
+    @sub_commands << {{command}}
   end
 
-  def initialize(@sub_commands : Array(Command))
+  # Sets the command description
+  macro describe(text)
+    @description = {{text}}
   end
 
-  def initialize(sub_command : Command)
-    @sub_commands = [sub_command] of Command
-  end
-
-  def initialize(@description : String, @scene : Scene.class | Nil)
-    @sub_commands = [] of Command
-  end
-
-  def initialize(@description : String, @sub_commands : Array(Command))
-  end
-
-  def initialize(@description : String, sub_command : Command)
-    @sub_commands = [sub_command] of Command
+  # Indicates which scene the user will go to after this
+  # command is executed.
+  # NOTE: the *scene* will be ignored if a sub-command is executed which also defines a scene.
+  macro goto(scene)
+    @scene = {{scene}}
   end
 
   # Performs extra processing on the user input.

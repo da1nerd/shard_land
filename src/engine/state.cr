@@ -22,4 +22,14 @@ struct State
 
   @[YAML::Field(key: "scene")]
   property scene : String?
+
+  @running : Bool = true
+
+  # Checks if the game is still running
+  getter running
+
+  # Notifies the game to stop running.
+  def quit
+    @running = false
+  end
 end

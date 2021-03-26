@@ -3,7 +3,8 @@ require "../../save_util.cr"
 # Saves the game `State` to the disk.
 class Commands::Menu::SaveGame < Command
   def initialize(scene : Scene.class)
-    super("s - Save Game", scene)
+    describe "s - Save Game"
+    goto scene
   end
 
   @[Override]

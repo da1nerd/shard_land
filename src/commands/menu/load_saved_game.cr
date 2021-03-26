@@ -2,7 +2,8 @@ class Commands::Menu::LoadSavedGame < Command
   @game_index : String
 
   def initialize(@save_path : String, @game_index : String, description, default_scene : Scene.class)
-    super(description: description, scene: default_scene)
+    describe description
+    goto default_scene
   end
 
   @[Override]

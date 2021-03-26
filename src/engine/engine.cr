@@ -10,13 +10,10 @@
 # start_game(FirstScene)
 # ```
 def start_game(starting_scene : Scene.class)
-  game = {
-    starting_scene.new,
-    State.new,
-  }
+  state = State.new
+  scene = starting_scene.new
   loop do
-    break unless game
-    scene, state = game
-    game = scene.run(state)
+    break unless state.running
+    scene, state = scene.run(state)
   end
 end

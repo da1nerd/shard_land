@@ -5,7 +5,7 @@ require "../../save_util.cr"
 class Commands::Menu::SelectSavedGame < Command
   # The player is taken to *default_scene* if there is a problem loading their saved scene.
   def initialize(@default_scene : Scene.class)
-    super(description: "o - Open an existing game", sub_commands: [] of Command)
+    describe "o - Open an existing game"
   end
 
   @[Override]

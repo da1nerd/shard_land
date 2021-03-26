@@ -42,7 +42,7 @@ struct Scenes::Menu < Scene
       options << Commands::Menu::SaveGame.new(self.class)
       options << Commands::KeyCommand.new("r", "r - Resume Game", self.get_scene(state.scene))
     end
-    options << Commands::KeyCommand.new("q", "q - Quit Game", nil)
+    options << Commands::Menu::QuitGame.new
     return options
   end
 

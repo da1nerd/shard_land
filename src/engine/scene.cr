@@ -25,14 +25,14 @@ abstract struct Scene
   abstract def commands(state : State) : Array(Command)
 
   # Renders the list of *commands* and returns the command chosen by the user.
-  private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)?
+  private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)
     display_commands(commands)
     return process_input(state, commands)
   end
 
   # Processes the user input.
   # This will keep running until the user enters valid input.
-  private def process_input(state : State, commands : Array(Command)) : Tuple(Command, State)?
+  private def process_input(state : State, commands : Array(Command)) : Tuple(Command, State)
     user_input = gets
 
     commands.each do |c|
@@ -52,7 +52,7 @@ abstract struct Scene
   end
 
   # Executes the *command* and displays it's sub-commands if it has any.
-  private def execute_command(state : State, command : Command, user_input : String?)
+  private def execute_command(state : State, command : Command, user_input : String?) : Tuple(Command, State)
     new_state = command.execute(state, user_input)
     if command.sub_commands.size > 0
       return render_commands(new_state, command.sub_commands)
@@ -81,15 +81,12 @@ abstract struct Scene
   end
 
   # Execute the scene and return the next scene and state
-  def run(state : State) : Tuple(Scene, State)?
+  def run(state : State) : Tuple(Scene, State)
     state = self.persist_scene_state(state)
     render(state)
-    selected_command = self.render_commands(state, self.commands(state))
-    if s = selected_command
-      command, new_state = selected_command
-      if scene = command.scene
-        return {scene.new, new_state}
-      end
+    command, state = self.render_commands(state, self.commands(state))
+    if scene = command.scene
+      return {scene.new, state}
     else
       return {self, state}
     end
