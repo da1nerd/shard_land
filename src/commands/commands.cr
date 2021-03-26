@@ -1,2 +1,3 @@
 require "../engine/*"
+require "./*"
 require "./**"

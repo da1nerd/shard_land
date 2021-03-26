@@ -40,9 +40,9 @@ struct Scenes::Menu < Scene
     # TODO: this isn't the best way to check if a game is loaded
     if !state.character.name.empty?
       options << Commands::Menu::SaveGame.new(self.class)
-      options << KeyCommand.new("r", "r - Resume Game", self.get_scene(state.scene))
+      options << Commands::KeyCommand.new("r", "r - Resume Game", self.get_scene(state.scene))
     end
-    options << KeyCommand.new("q", "q - Quit Game", nil)
+    options << Commands::KeyCommand.new("q", "q - Quit Game", nil)
     return options
   end
 

@@ -1,4 +1,5 @@
 require "./base_scene.cr"
+require "../commands"
 
 module Scenes
   struct MountainTrail < BaseScene

@@ -27,7 +27,12 @@ abstract struct Scene
   # Renders the list of *commands* and returns the command chosen by the user.
   private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)?
     display_commands(commands)
+    return process_input(state, commands)
+  end
 
+  # Processes the user input.
+  # This will keep running until the user enters valid input.
+  private def process_input(state : State, commands : Array(Command)) : Tuple(Command, State)?
     user_input = gets
 
     commands.each do |c|
@@ -36,13 +41,13 @@ abstract struct Scene
       end
     end
 
-    puts "huh?"
-    return render_commands(state, commands)
+    puts "I don't understand."
+    return process_input(state, commands)
   end
 
   private def display_commands(commands : Array(Command))
     commands.each do |c|
-      puts c.description
+      puts c.description if c.description
     end
   end
 

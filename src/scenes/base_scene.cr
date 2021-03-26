@@ -5,7 +5,7 @@ abstract struct Scenes::BaseScene < Scene
   @[Override]
   def commands(state : State) : Array(Command)
     [
-      KeyCommand.new("m", "m - Open Menu", Menu),
+      Commands::KeyCommand.new("m", "m - Open Menu", Menu),
     ] of Command
   end
 end

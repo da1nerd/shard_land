@@ -5,7 +5,9 @@
 #
 # ```
 # require "./engine/*"
-# start_game("My game is awesome!", FirstScene)
+# require "./first_scene.cr"
+#
+# start_game(FirstScene)
 # ```
 def start_game(starting_scene : Scene.class)
   game = {

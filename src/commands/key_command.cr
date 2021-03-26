@@ -1,9 +1,7 @@
-require "./command.cr"
-require "./state.cr"
-require "./annotation"
-
-# A command that has to be activated by pressing a specific key
-class KeyCommand < Command
+# A convenience command that has to be activated by pressing a specific key
+# By default, all commands will be executed in a scene when the user provides input.
+# This command will only be executed if the player input matches the *key* value.
+class Commands::KeyCommand < Command
   def initialize(@key : String, description : String, scene : Scene.class | Nil)
     super(description, scene)
   end
