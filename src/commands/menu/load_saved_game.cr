@@ -1,11 +1,13 @@
-require "../command.cr"
-require "../state.cr"
-require "../annotation"
-require "../save_util.cr"
+class Commands::Menu::LoadSavedGame < Command
+  @game_index : String
 
-class MenuCommands::LoadSavedGame < Command
-  def initialize(@save_path : String, key, description, default_scene : Scene.class)
-    super(key, description, default_scene)
+  def initialize(@save_path : String, @game_index : String, description, default_scene : Scene.class)
+    super(description: description, scene: default_scene)
+  end
+
+  @[Override]
+  def validate(state : State, user_input : String?) : Bool
+    return user_input == @game_index
   end
 
   @[Override]

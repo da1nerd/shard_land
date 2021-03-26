@@ -26,36 +26,24 @@ abstract struct Scene
 
   # Renders the list of *commands* and returns the command chosen by the user.
   private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)?
-    commands.each do |c|
-      if c.key
-        puts "#{c.key} - #{c.description}"
-      else
-        puts c.description
-      end
-    end
+    display_commands(commands)
+
     user_input = gets
 
-    # commands without a key will accept any raw input
-    if commands.size == 1 && commands[0].key == nil
-      c = commands[0]
-      # validate raw input
-      until c.validate(state, user_input)
-        puts c.description
-        user_input = gets
-      end
-      return execute_command(state, c, user_input)
-    end
-
-    # find the command by key
     commands.each do |c|
-      if user_input == c.key
+      if c.validate(state, user_input)
         return execute_command(state, c, user_input)
       end
     end
 
-    # invalid option. try again
-    puts %{Invalid option "#{user_input}". Please choose an option below:}
+    puts "huh?"
     return render_commands(state, commands)
+  end
+
+  private def display_commands(commands : Array(Command))
+    commands.each do |c|
+      puts c.description
+    end
   end
 
   # Executes the *command* and displays it's sub-commands if it has any.

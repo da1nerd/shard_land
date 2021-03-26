@@ -1,6 +1,6 @@
 require "./base_scene.cr"
 
-module GameScene
+module Scenes
   struct MountainTrail < BaseScene
     @[Override]
     def render(state : State)

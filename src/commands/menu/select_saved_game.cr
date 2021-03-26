@@ -1,15 +1,11 @@
-require "../command.cr"
-require "../state.cr"
-require "../annotation"
-require "./load_saved_game.cr"
-require "../save_util.cr"
+require "../../save_util.cr"
 
 # Handles displaying a list of saved games, and allows the
 # player select one to continue.
-class MenuCommands::SelectSavedGame < Command
+class Commands::Menu::SelectSavedGame < Command
   # The player is taken to *default_scene* if there is a problem loading their saved scene.
   def initialize(@default_scene : Scene.class)
-    super("o", "Open an existing game", [] of Command)
+    super(description: "o - Open an existing game", sub_commands: [] of Command)
   end
 
   @[Override]
@@ -17,16 +13,14 @@ class MenuCommands::SelectSavedGame < Command
     puts "Choose a saved game:"
     SaveUtil.list_saves.each_with_index do |save, index|
       name, path = save
-      @sub_commands << LoadSavedGame.new(path, "#{index + 1}", name, @default_scene)
+      game_key = "#{index + 1}"
+      @sub_commands << LoadSavedGame.new(path, game_key, "#{game_key} - #{name}", @default_scene)
     end
     return state
   end
 
   @[Override]
   def validate(state : State, user_input : String?) : Bool
-    if input = user_input
-      return !input.empty?
-    end
-    return false
+    user_input == "o"
   end
 end

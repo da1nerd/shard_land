@@ -1,13 +1,13 @@
-require "../command.cr"
-require "./get_character_name.cr"
-require "../state.cr"
-require "../annotation"
-
 # Starts a new game after collecting some player information.
-module MenuCommands
+module Commands::Menu
   class NewGame < Command
     def initialize(scene : Scene.class)
-      super("n", "Start a new game", GetCharacterName.new(scene).as(Command))
+      super(description: "n - Start a new game", sub_command: GetCharacterName.new(scene).as(Command))
+    end
+
+    @[Override]
+    def validate(state : State, user_input : String?) : Bool
+      return user_input == "n"
     end
 
     @[Override]

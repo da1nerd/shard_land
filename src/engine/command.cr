@@ -44,12 +44,9 @@ require "./state.cr"
 #
 # TODO: it would be nice to make the keyless and keyed command types type-safe so they are not used incorrectly.
 class Command
-  @key : String?
+  @description : String?
+  @scene : Scene.class | Nil
   @sub_commands : Array(Command)
-
-  # The character or characters that a player must enter into the terminal in order to select this command.
-  # If the key is nill the command will be automatically selected.
-  getter key
 
   # A description of the command.
   # This should help the player decide what to do.
@@ -64,29 +61,13 @@ class Command
   # Then we rely on the subcommands to specify a scene to visit next.
   getter sub_commands
 
-  def initialize(@key : String, @description : String, @scene : Scene.class | Nil)
-    @sub_commands = [] of Command
-  end
-
-  # Creates a keyless command that will execute a scene right away
-  # Keyless commands should not be used with keyed commands.
   def initialize(@description : String, @scene : Scene.class | Nil)
     @sub_commands = [] of Command
   end
 
-  def initialize(@key : String, @description : String, @sub_commands : Array(Command))
-  end
-
-  def initialize(@key : String, @description : String, sub_command : Command)
-    @sub_commands = [sub_command]
-  end
-
-  # Creates a keyless command that immediately calls another command.
-  # Keyless commands should not be used with keyed commands.
   def initialize(@description : String, @sub_commands : Array(Command))
   end
 
-  # :ditto:
   def initialize(@description : String, sub_command : Command)
     @sub_commands = [sub_command]
   end

@@ -1,3 +1,5 @@
+require "file_utils"
+
 module SaveUtil
   extend self
   SAVE_DIR = File.join(Path.home, ".shard_land")

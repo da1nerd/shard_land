@@ -1,11 +1,7 @@
-require "../command.cr"
-require "../state.cr"
-require "../annotation"
-
 # Collects the player's character name.
-class MenuCommands::GetCharacterName < Command
+class Commands::Menu::GetCharacterName < Command
   def initialize(scene : Scene.class)
-    super("What is your name?", scene)
+    super(description: "What is your name?", scene: scene)
   end
 
   @[Override]

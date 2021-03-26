@@ -1,4 +1,3 @@
-require "./character.cr"
 require "yaml"
 
 # Represents the current state of a game.
@@ -6,13 +5,13 @@ require "yaml"
 #
 # # Example:
 #
-# Add a timestamp to the state.
+# Add a character to the state.
 # Properties prefixed with a `YAML::Field` annotation will automatically persist between saves.
 #
 # ```
 # struct State
-#   @[YAML::Field(key: "timestamp")]
-#   property timestamp : Time?
+#   @[YAML::Field(key: "character")]
+#   property character : Character?
 # end
 # ```
 #
@@ -21,13 +20,6 @@ require "yaml"
 struct State
   include YAML::Serializable
 
-  @[YAML::Field(key: "character")]
-  property character : Character
-
   @[YAML::Field(key: "scene")]
   property scene : String?
-
-  def initialize
-    @character = Character.new("")
-  end
 end

@@ -1,7 +1,7 @@
 require "./base_scene.cr"
 require "./mountain_trail.cr"
 
-module GameScene
+module Scenes
   struct MountainTop < BaseScene
     @[Override]
     def render(state : State)
@@ -21,7 +21,7 @@ module GameScene
     @[Override]
     def commands(state : State) : Array(Command)
       super + [
-        Command.new("1", "Walk down the train", MountainTrail),
+        KeyCommand.new(key: "1", description: "1 - Walk down the train", scene: MountainTrail).as(Command),
       ]
     end
   end

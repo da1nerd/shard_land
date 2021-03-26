@@ -1,11 +1,11 @@
 require "../engine/*"
 
 # Provides some default commands for game scenes
-abstract struct GameScene::BaseScene < Scene
+abstract struct Scenes::BaseScene < Scene
   @[Override]
   def commands(state : State) : Array(Command)
     [
-      Command.new("m", "Open the menu", Menu),
+      KeyCommand.new("m", "m - Open Menu", Menu).as(Command),
     ]
   end
 end
