@@ -34,15 +34,15 @@ struct Scenes::Menu < Scene
   @[Override]
   def commands(state : State) : Array(Command)
     options = [
-      Commands::Menu::NewGame.new(MountainTop).as(Command),
-      Commands::Menu::SelectSavedGame.new(MountainTop).as(Command),
+      Commands::Menu::NewGame.new(MountainTop),
+      Commands::Menu::SelectSavedGame.new(MountainTop),
     ]
     # TODO: this isn't the best way to check if a game is loaded
     if !state.character.name.empty?
-      options << Commands::Menu::SaveGame.new(self.class).as(Command)
-      options << KeyCommand.new("r", "r - Resume Game", self.get_scene(state.scene)).as(Command)
+      options << Commands::Menu::SaveGame.new(self.class)
+      options << KeyCommand.new("r", "r - Resume Game", self.get_scene(state.scene))
     end
-    options << KeyCommand.new("q", "q - Quit Game", nil).as(Command)
+    options << KeyCommand.new("q", "q - Quit Game", nil)
     return options
   end
 

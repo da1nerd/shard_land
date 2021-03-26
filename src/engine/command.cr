@@ -43,7 +43,7 @@ require "./state.cr"
 # ```
 #
 # TODO: it would be nice to make the keyless and keyed command types type-safe so they are not used incorrectly.
-class Command
+abstract class Command
   @description : String?
   @scene : Scene.class | Nil
   @sub_commands : Array(Command)
@@ -69,7 +69,7 @@ class Command
   end
 
   def initialize(@description : String, sub_command : Command)
-    @sub_commands = [sub_command]
+    @sub_commands = [sub_command] of Command
   end
 
   # Performs extra processing on the user input.

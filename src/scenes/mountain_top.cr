@@ -21,7 +21,7 @@ module Scenes
     @[Override]
     def commands(state : State) : Array(Command)
       super + [
-        KeyCommand.new(key: "1", description: "1 - Walk down the train", scene: MountainTrail).as(Command),
+        KeyCommand.new(key: "1", description: "1 - Walk down the train", scene: MountainTrail),
       ]
     end
   end
