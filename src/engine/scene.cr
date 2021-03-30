@@ -1,10 +1,53 @@
 require "./command.cr"
+require "./interaction.cr"
 require "./state.cr"
 
 # Represents a single scene in the game.
 # Players navigate through the game by visiting different scenes.
 # Scenes describe the environment and provide the user with different `Command` options.
 abstract struct Scene
+  @commands = [] of Command
+
+  macro describe(description)
+    def render(state : State)
+      {{description}}
+    end
+  end
+
+  # Adds a `Thing` to the scene.
+  # Players will be able to interact with the *thing*.
+  macro has(thing)
+    # TODO: add some type checking like this https://github.com/luckyframework/lucky/blob/3da20f413cc97ee4db0937a20ba367583fa7d7c1/src/lucky/assignable.cr#L26
+    def generate_commands
+      {% if @type.methods.map(&.name).includes?(:generate_commands.id) %}
+        previous_def
+      {% else %}
+        super
+      {% end %}
+      @commands << Interaction.new("{{thing.id.underscore.gsub(/_/, " ")}}", {{thing}})
+    end
+  end
+
+  # Adds a `Command` that can be performed in the scene
+  macro can(command)
+    # TODO: add some type checking like this https://github.com/luckyframework/lucky/blob/3da20f413cc97ee4db0937a20ba367583fa7d7c1/src/lucky/assignable.cr#L26
+    def generate_commands
+      {% if @type.methods.map(&.name).includes?(:generate_commands.id) %}
+        previous_def
+      {% else %}
+        super
+      {% end %}
+      @commands << {{command}}
+    end
+  end
+
+  def initialize
+    generate_commands
+  end
+
+  private def generate_commands
+  end
+
   # Render the scene description.
   #
   # > Note: There is no need to explain the scene's available options
@@ -22,11 +65,13 @@ abstract struct Scene
 
   # Returns an ordered list of commands available to the user.
   # These commands will be displayed after the scene description produced in `#render`
-  abstract def commands(state : State) : Array(Command)
+  def commands(state : State) : Array(Command)
+    @commands
+  end
 
   # Renders the list of *commands* and returns the command chosen by the user.
   private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)
-    display_commands(commands)
+    display_commands(state, commands)
     return process_input(state, commands)
   end
 
@@ -36,7 +81,7 @@ abstract struct Scene
     user_input = gets
 
     commands.each do |c|
-      if c.validate(state, user_input)
+      if c.enabled(state) && c.validate(state, user_input)
         return execute_command(state, c, user_input)
       end
     end
@@ -45,9 +90,9 @@ abstract struct Scene
     return process_input(state, commands)
   end
 
-  private def display_commands(commands : Array(Command))
+  private def display_commands(state : State, commands : Array(Command))
     commands.each do |c|
-      puts c.description if c.description
+      puts c.description if c.enabled(state) && c.description
     end
   end
 

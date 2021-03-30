@@ -80,6 +80,12 @@ abstract class Command
     return state
   end
 
+  # Checks if the command is enabled.
+  # Disabled commands will not be displayed and will not process user input.
+  def enabled(state : State) : Bool
+    true
+  end
+
   # Validates the user input given to the command.
   # Override this to add your custom logic.
   #

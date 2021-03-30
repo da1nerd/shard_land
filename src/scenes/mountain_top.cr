@@ -1,8 +1,12 @@
 require "./base_scene.cr"
-require "./mountain_trail.cr"
+require "./mountain_settlement.cr"
+require "../things/shard.cr"
 
 module Scenes
   struct MountainTop < BaseScene
+    has Shard.new
+    can Commands::KeyCommand.new(key: "1", description: "1 - Walk down the train", scene: MountainSettlement)
+
     @[Override]
     def render(state : State)
       puts <<-MSG
@@ -16,13 +20,6 @@ module Scenes
 
       You notice a trail down the side of the mountain to your right.
       MSG
-    end
-
-    @[Override]
-    def commands(state : State) : Array(Command)
-      super + [
-        Commands::KeyCommand.new(key: "1", description: "1 - Walk down the train", scene: MountainTrail),
-      ]
     end
   end
 end
