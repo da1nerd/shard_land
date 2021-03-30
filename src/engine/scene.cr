@@ -10,7 +10,7 @@ abstract struct Scene
 
   macro describe(description)
     def render(state : State)
-      {{description}}
+      puts {{description}}
     end
   end
 

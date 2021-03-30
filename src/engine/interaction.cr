@@ -11,10 +11,7 @@ class Interaction < Command
   end
 
   @[Override]
-  def execute(state : State, user_input : String?) : State
-    if user_input == "take #{@name}"
-      puts "You took #{@name}"
-    end
-    return state
+  def validate(state : State, user_input : String?) : Bool
+    user_input == "take #{@name}"
   end
 end
