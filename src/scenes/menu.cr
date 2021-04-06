@@ -1,6 +1,7 @@
 require "../engine/*"
 require "../commands/*"
 require "./mountain_top.cr"
+require "annotation"
 
 # A special scene that provides some basic game controls to the user
 # such as starting a new game or opening a saved game.
@@ -32,7 +33,7 @@ struct Scenes::Menu < Scene
 
   # Overrides the normal behavior so that navigating to the menu does not interupt the user's current `Scende` location.
   @[Override]
-  def persist_scene_state(state : State) : State
+  def before(state : State) : State
     return state
   end
 

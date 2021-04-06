@@ -1,4 +1,4 @@
 require "../engine/*"
 
-struct Shard < Thing
+struct Canister < Thing
 end

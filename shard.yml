@@ -9,11 +9,10 @@ targets:
   shard_land:
     main: src/shard_land.cr
 
-# TODO: enable this again once it's updated to support crystal 1.0.0
-# dependencies:
-#   annotation:
-#     github: grottopress/annotation.cr
-#     commit: eb841fe
+dependencies:
+  annotation:
+    github: grottopress/annotation.cr
+    commit: 1439a81
 
 crystal: 1.0.0
 

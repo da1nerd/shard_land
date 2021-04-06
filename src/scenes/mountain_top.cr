@@ -1,9 +1,10 @@
 require "./base_scene.cr"
 require "./mountain_settlement.cr"
-require "../things/shard.cr"
+require "../things/canister.cr"
 
 module Scenes
   struct MountainTop < BaseScene
+    @[Override]
     def render(state : State)
       describe <<-MSG
       You are falling. The sky is shattering around you like glass. Blackness covers you. Then nothing.
@@ -16,13 +17,11 @@ module Scenes
 
       You notice a trail down the side of the mountain to your right.
 
-      There is a round flat canister here. "Oh good, I did grab it."
-      The shards where a myth. At least most people thought so.
-      Now Chris had one in his possession. If he could just find the rest.
+      There is a round flat canister here.
       MSG
 
-      has Shard.new
-      can Commands::KeyCommand.new(key: "1", description: "1 - Walk down the train", scene: MountainSettlement)
+      has Canister.new
+      can Commands::KeyCommand.new(key: "1", description: "1 - Walk down the trail", scene: MountainSettlement)
     end
   end
 end

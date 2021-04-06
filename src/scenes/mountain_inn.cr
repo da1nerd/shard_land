@@ -1,28 +1,23 @@
 require "./base_scene.cr"
+require "./mountain_inn/*"
+require "annotation"
 
 struct Scenes::MountainInn < Scenes::BaseScene
+  @[Override]
   def render(state : State)
     describe <<-MSG
+    You walk into a drafty room with a fire roaring in the corner.
+    The Inn keeper sits behind a desk, and a flight of stairs leading upstairs is to the left of him.
     The inn keeper looks at you with a quizickle expression as you walk into the inn.
     "Where are you here from stranger? And how can I help you?"
-    "The blackness brought me here" Chris replies.
-    "I need to rest for a night and be on my way in the morning."
-    "The blackness eh?" replies the inn keeper.
-    "you must be a lucky one. Most people have to be carried away on a donkey
-    and rested real good for a week before they can walk again. 
-    That is if they recover at all"
-    "Yeah. Lucky" Chris replies.
-    "You'd better be more careful" the inn keeper continues.
-    People don't maintain a... natural state of mind after experiencing
-    the blackness more than a couple of times.
-    There's a place for those you know, sector 0.
-    It's better for society that way, safer.
-    I've only known one fella who survived the blackness more than a few times.
-    Well... he's in sector 0 now. Got cocky.
-
-    Thanks for the advice. I'll be careful.
-
+    "I don't know. I woke up on the top of the mountain." You reply
+    "Ah..." the Inn keeper replies knowingly. "The blackness. It takes people where it will, and usually takes there memories as well. What's  your name son?"
+    "I'm..." you stop, you don't actualy remember. In fact you don't remember anything about your past.
+    "No worries son" Says the Inn keeper in response to your look of shock.
+    "It'll be a new life for you, a new start. I have two rooms available. Would you like to face the mountain or the valley?"
     MSG
-    # TODO: put conversation with in keeper into an action
+
+    goto Scenes::MountainSideRoom, "mountain"
+    goto Scenes::ValleySideRoom, "valley"
   end
 end

@@ -5,6 +5,7 @@ require "./mountain_shop.cr"
 
 module Scenes
   struct MountainSettlement < BaseScene
+    @[Override]
     def render(state : State)
       describe <<-MSG
       You walk for 30 minutes down the snowy trail until you reach a settlement.
@@ -12,8 +13,8 @@ module Scenes
       There are an assortment of small stores and homes grouped together.
       A small shanty that appears to be selling supplies is not far from the inn.
       MSG
-      can Commands::KeyCommand.new(key: "1", description: "1 - Go to the Inn", scene: MountainSettlement)
-      can Commands::KeyCommand.new(key: "2", description: "2 - Go to the supply store", scene: MountainSettlement)
+      can Commands::KeyCommand.new(key: "1", description: "1 - Go to the Inn", scene: MountainInn)
+      can Commands::KeyCommand.new(key: "2", description: "2 - Go to the supply store", scene: MountainShop)
     end
   end
 end
