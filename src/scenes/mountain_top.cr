@@ -14,6 +14,10 @@ module Scenes
     "Perfect."
 
     You notice a trail down the side of the mountain to your right.
+
+    There is a round flat canister here. "Oh good, I did grab it."
+    The shards where a myth. At least most people thought so.
+    Now Chris had one in his possession. If he could just find the rest.
     MSG
 
     has Shard.new
