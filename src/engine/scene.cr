@@ -8,44 +8,19 @@ require "./state.cr"
 abstract struct Scene
   @commands = [] of Command
 
-  macro describe(description)
-    def render(state : State)
-      puts {{description}}
-    end
+  def describe(description)
+    puts description
   end
 
   # Adds a `Thing` to the scene.
   # Players will be able to interact with the *thing*.
-  macro has(thing)
-    # TODO: add some type checking like this https://github.com/luckyframework/lucky/blob/3da20f413cc97ee4db0937a20ba367583fa7d7c1/src/lucky/assignable.cr#L26
-    def generate_commands
-      {% if @type.methods.map(&.name).includes?(:generate_commands.id) %}
-        previous_def
-      {% else %}
-        super
-      {% end %}
-      @commands << Interaction.new("{{thing.id.underscore.gsub(/_/, " ")}}", {{thing}})
-    end
+  def has(thing : Thing)
+    @commands << Interaction.new(thing.class.name, thing)
   end
 
   # Adds a `Command` that can be performed in the scene
-  macro can(command)
-    # TODO: add some type checking like this https://github.com/luckyframework/lucky/blob/3da20f413cc97ee4db0937a20ba367583fa7d7c1/src/lucky/assignable.cr#L26
-    def generate_commands
-      {% if @type.methods.map(&.name).includes?(:generate_commands.id) %}
-        previous_def
-      {% else %}
-        super
-      {% end %}
-      @commands << {{command}}
-    end
-  end
-
-  def initialize
-    generate_commands
-  end
-
-  private def generate_commands
+  def can(command : Command)
+    @commands << command
   end
 
   # Render the scene description.
@@ -62,12 +37,6 @@ abstract struct Scene
   # ```
   #
   abstract def render(state : State)
-
-  # Returns an ordered list of commands available to the user.
-  # These commands will be displayed after the scene description produced in `#render`
-  def commands(state : State) : Array(Command)
-    @commands
-  end
 
   # Renders the list of *commands* and returns the command chosen by the user.
   private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)
@@ -129,7 +98,7 @@ abstract struct Scene
   def run(state : State) : Tuple(Scene, State)
     state = self.persist_scene_state(state)
     render(state)
-    command, state = self.render_commands(state, self.commands(state))
+    command, state = self.render_commands(state, @commands)
     if scene = command.scene
       return {scene.new, state}
     else

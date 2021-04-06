@@ -5,13 +5,15 @@ require "./mountain_shop.cr"
 
 module Scenes
   struct MountainSettlement < BaseScene
-    describe <<-MSG
-    You walk for about half an hour before arriving at a snowed in village.
-    An old inn sits at the edge of the road facing the mountain side.
-    A perfect place to rest for the night.
-    There is an old shop not far from the inn. Probably selling supplies.
-    MSG
-    can Commands::KeyCommand.new(key: "1", description: "1 - Go to the Inn", scene: MountainInn)
-    can Commands::KeyCommand.new(key: "2", description: "2 - Go to the supply store", scene: MountainShop)
+    def render(state : State)
+      describe <<-MSG
+      You walk for 30 minutes down the snowy trail until you reach a settlement.
+      There is an inn just before you that appears to be built so that it hangs off the edge of the mountain.
+      There are an assortment of small stores and homes grouped together.
+      A small shanty that appears to be selling supplies is not far from the inn.
+      MSG
+      can Commands::KeyCommand.new(key: "1", description: "1 - Go to the Inn", scene: MountainSettlement)
+      can Commands::KeyCommand.new(key: "2", description: "2 - Go to the supply store", scene: MountainSettlement)
+    end
   end
 end
