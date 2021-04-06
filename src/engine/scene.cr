@@ -32,7 +32,7 @@ abstract struct Scene
   #
   # ```
   # def render(state : State)
-  #   puts "You are in an empty room. To your left is an open door."
+  #   describe "You are in an empty room. To your left is an open door."
   # end
   # ```
   #
@@ -75,31 +75,40 @@ abstract struct Scene
     end
   end
 
-  # Persists the scene information to the state
+  # Executed just before the player enters the scene.
+  # By default this updates the `State` with the current scene
   # so we can keep track of a player's progress between saves.
   #
   # # Example:
   #
-  # If we also had a *timstamp* field on `State` we could set it here
+  # If we also also wanted to save a *timstamp* field on `State` we could set it here
   #
   # ```
-  # protected def persist_scene_state(state : State) : State
+  # protected def before(state : State) : State
   #   state = super(state)
   #   state.timstamp = Time.utc
   #   return state
   # end
   # ```
-  def persist_scene_state(state : State) : State
+  def before(state : State) : State
     state.scene = self.class.name
+    return state
+  end
+
+  # Executed right before the player leaves the scene
+  # By default this does nothing, but you can override it to
+  # include any exiting logic.
+  def after(state : State) : State
     return state
   end
 
   # Execute the scene and return the next scene and state
   def run(state : State) : Tuple(Scene, State)
-    state = self.persist_scene_state(state)
+    state = self.before(state)
     render(state)
     command, state = self.render_commands(state, @commands)
     if scene = command.scene
+      self.after(state)
       return {scene.new, state}
     else
       return {self, state}
