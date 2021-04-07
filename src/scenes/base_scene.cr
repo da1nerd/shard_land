@@ -25,7 +25,13 @@ abstract struct Scenes::BaseScene < Scene
     def {{name.id}}(scene : Scene.class, description : String)
       options = [
         {{name.id.stringify}},
+        {% if name.id.includes?("_") %}
+          {{name.id.gsub(/\_/, " ").stringify}},
+        {% end %}
         {% for a in aliases %}
+          {% if a.id.includes?("_") %}
+            {{a.id.gsub(/\_/, " ").stringify}},
+          {% end %}
           {{a.id.stringify}},
         {% end %}
       ]
@@ -37,7 +43,11 @@ abstract struct Scenes::BaseScene < Scene
   end
 
   define_direction :east, :e
+  define_direction :southeast, :se
+  define_direction :northeast, :ne
   define_direction :west, :w
+  define_direction :southwest, :sw
+  define_direction :northwest, :nw
   define_direction :north, :n
   define_direction :south, :s
 
