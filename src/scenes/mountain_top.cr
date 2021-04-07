@@ -1,6 +1,7 @@
 require "./base_scene.cr"
 require "./mountain_settlement.cr"
 require "../things/canister.cr"
+require "../commands"
 
 module Scenes
   struct MountainTop < BaseScene
@@ -22,6 +23,7 @@ module Scenes
 
     @[Override]
     def render(state : State)
+      super
       has Canister.new
       east MountainSettlement, "The trail is narrow and perilous, but it may be the only way down the mountain."
     end

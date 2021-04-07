@@ -9,6 +9,10 @@ require "annotation"
 # The menu *description* introduces the player to your game.
 # The *starting_scene* is where players will go first when starting a new game.
 struct Scenes::Menu < Scene
+  def title : String
+    return "Menu"
+  end
+
   def description(state : State) : String
     message = <<-MSG
     **************

@@ -1,7 +1,7 @@
 # A simple command simply navigates to a scene
 # after the user provides any input.
 class Commands::Noop < Command
-  def initialize(@scene : Scene.class)
+  def initialize(@next_scene : Scene.class)
   end
 
   @[Override]

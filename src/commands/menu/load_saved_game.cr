@@ -17,7 +17,7 @@ class Commands::Menu::LoadSavedGame < Command
       case new_state.scene
       {% for s in Scene.all_subclasses.reject &.abstract? %}
       when "{{s.name}}"
-        @scene = {{s}}
+        @next_scene = {{s}}
       {% end %}
       else
         puts "The saved game is corrupt."

@@ -8,7 +8,13 @@ require "./state.cr"
 abstract struct Scene
   @commands = [] of Command
 
+  # The title of the scene
+  def title : String
+    self.class.name.split("::")[-1].underscore.gsub(/_/, " ").capitalize
+  end
+
   # Returns a description of the scene
+  # The scene is described when a player enters it and when they "look" around.
   abstract def description(state : State) : String
 
   # Adds a `Thing` to the scene.
@@ -108,16 +114,17 @@ abstract struct Scene
   # Execute the scene and return the next scene and state
   def run(state : State) : Tuple(Scene, State)
     state = self.before(state)
+    puts "### #{title} ###"
     puts description(state)
     render(state)
     command, state = self.render_commands(state, @commands)
 
     # run until the scene changes or the game ends
-    until command.scene || state.running == false
+    until command.next_scene || state.running == false
       command, state = self.render_commands(state, @commands)
     end
 
-    if scene = command.scene
+    if scene = command.next_scene
       self.after(state)
       return {scene.new, state}
     else

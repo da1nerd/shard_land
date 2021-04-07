@@ -4,10 +4,6 @@ require "annotation"
 
 # Provides some default commands for game scenes
 abstract struct Scenes::BaseScene < Scene
-  @commands = [
-    Commands::KeyCommand.new("menu", Menu),
-  ] of Command
-
   def goto(scene : Scene.class, name : String)
     @commands << Commands::Navigate.new(scene, name)
   end
@@ -20,19 +16,25 @@ abstract struct Scenes::BaseScene < Scene
     end
   end
 
+  @[Override]
+  def render(state : State)
+    @commands << Commands::KeyCommand.new("menu", Menu)
+    @commands << Commands::Look.new(description(state))
+  end
+
   private macro define_direction(name, *aliases)
     # Defines a scene to the {{name.id}}
     def {{name.id}}(scene : Scene.class, description : String)
       options = [
         {{name.id.stringify}},
-        {% if name.id.includes?("_") %}
-          {{name.id.gsub(/\_/, " ").stringify}},
-        {% end %}
+        "go {{name.id}}",
+        "go to the {{name.id}}",
+        "travel {{name.id}}",
         {% for a in aliases %}
-          {% if a.id.includes?("_") %}
-            {{a.id.gsub(/\_/, " ").stringify}},
-          {% end %}
           {{a.id.stringify}},
+          "go {{a.id}}",
+          "go to the {{a.id}}",
+          "travel {{a.id}}",
         {% end %}
       ]
       options.each do |o|

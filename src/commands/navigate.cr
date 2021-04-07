@@ -4,11 +4,11 @@ class Commands::Navigate < Command
 
   # Infers the scene name from the class name
   def initialize(scene : Scene.class)
-    @scene = scene
+    @next_scene = scene
     @scene_name = scene.name.split("::")[-1]
   end
 
-  def initialize(@scene : Scene.class, @scene_name)
+  def initialize(@next_scene : Scene.class, @scene_name)
   end
 
   @[Override]

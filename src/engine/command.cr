@@ -24,39 +24,16 @@ require "./state.cr"
 # If that sub command ends up being activated, the player will navigate to `SubScene` instead of `TheNextScene`.
 # However, if `MyAltSubCommand` is activated, the player will navigate to `TheNextScene`.
 abstract class Command
-  @description : String?
-  @scene : Scene.class | Nil
+  @next_scene : Scene.class | Nil
   @commands : Array(Command) = [] of Command
 
-  # A description of the command.
-  # This should help the player decide what to do.
-  getter description
-
   # The scene that will be visited next after this command has been executed.
-  # If the scene is nill and there are no `#sub_commands` the game will exit.
-  getter scene
+  getter next_scene
 
   # An array of sub commands available to the user.
   # Instead of navigating directly to a scene, these subcommands will be display to the player.
   # Then we rely on the subcommands to specify a scene to visit next.
   getter commands
-
-  # Adds a sub command
-  macro sub_command(command)
-    @commands << {{command}}
-  end
-
-  # Sets the command description
-  # macro describe(text)
-  #   @description = {{text}}
-  # end
-
-  # Indicates which scene the user will go to after this
-  # command is executed.
-  # NOTE: the *scene* will be ignored if a sub-command is executed which also defines a scene.
-  macro goto(scene)
-    @scene = {{scene}}
-  end
 
   # Performs extra processing on the user input.
   # Override this to add your custom logic.

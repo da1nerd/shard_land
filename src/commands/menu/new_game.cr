@@ -2,7 +2,7 @@
 module Commands::Menu
   class NewGame < Command
     def initialize(scene : Scene.class)
-      sub_command GetCharacterName.new(scene)
+      @commands << GetCharacterName.new(scene)
     end
 
     @[Override]
