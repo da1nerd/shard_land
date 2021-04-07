@@ -22,6 +22,8 @@ module Scenes
 
       has Canister.new
       can Commands::KeyCommand.new(key: "1", description: "1 - Walk down the trail", scene: MountainSettlement)
+
+      east MountainSettlement, "The trail is narrow and perilous, but it may be the only way down the mountain."
     end
   end
 end

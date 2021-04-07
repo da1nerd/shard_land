@@ -2,6 +2,9 @@
 # By default, all commands will be executed in a scene when the user provides input.
 # This command will only be executed if the player input matches the *key* value.
 class Commands::KeyCommand < Command
+  def initialize(@key : String, @scene : Scene.class | Nil)
+  end
+
   def initialize(@key : String, description : String, scene : Scene.class | Nil)
     describe description
     goto scene

@@ -91,6 +91,7 @@ abstract struct Scene
   # end
   # ```
   def before(state : State) : State
+    # TODO: if the scene has not been visited before, print the description.
     state.scene = self.class.name
     return state
   end
@@ -111,7 +112,7 @@ abstract struct Scene
       self.after(state)
       return {scene.new, state}
     else
-      return {self, state}
+      return {self.class.new, state}
     end
   end
 end
