@@ -40,13 +40,14 @@ abstract struct Scene
 
   # Renders the list of *commands* and returns the command chosen by the user.
   private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)
-    display_commands(state, commands)
+    # display_commands(state, commands)
     return process_input(state, commands)
   end
 
   # Processes the user input.
   # This will keep running until the user enters valid input.
   private def process_input(state : State, commands : Array(Command)) : Tuple(Command, State)
+    printf("> ")
     user_input = gets
 
     commands.each do |c|
@@ -68,8 +69,8 @@ abstract struct Scene
   # Executes the *command* and displays it's sub-commands if it has any.
   private def execute_command(state : State, command : Command, user_input : String?) : Tuple(Command, State)
     new_state = command.execute(state, user_input)
-    if command.sub_commands.size > 0
-      return render_commands(new_state, command.sub_commands)
+    if command.commands.size > 0
+      return render_commands(new_state, command.commands)
     else
       return {command, new_state}
     end
@@ -108,6 +109,12 @@ abstract struct Scene
     state = self.before(state)
     render(state)
     command, state = self.render_commands(state, @commands)
+
+    # run until the scene changes or the game ends
+    until command.scene || state.running == false
+      command, state = self.render_commands(state, @commands)
+    end
+
     if scene = command.scene
       self.after(state)
       return {scene.new, state}

@@ -1,8 +1,6 @@
 # Collects the player's character name.
 class Commands::Menu::GetCharacterName < Command
-  def initialize(scene : Scene.class)
-    describe "What is your name?"
-    goto scene
+  def initialize(@scene : Scene.class)
   end
 
   @[Override]

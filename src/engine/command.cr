@@ -26,7 +26,7 @@ require "./state.cr"
 abstract class Command
   @description : String?
   @scene : Scene.class | Nil
-  @sub_commands : Array(Command) = [] of Command
+  @commands : Array(Command) = [] of Command
 
   # A description of the command.
   # This should help the player decide what to do.
@@ -39,17 +39,17 @@ abstract class Command
   # An array of sub commands available to the user.
   # Instead of navigating directly to a scene, these subcommands will be display to the player.
   # Then we rely on the subcommands to specify a scene to visit next.
-  getter sub_commands
+  getter commands
 
   # Adds a sub command
   macro sub_command(command)
-    @sub_commands << {{command}}
+    @commands << {{command}}
   end
 
   # Sets the command description
-  macro describe(text)
-    @description = {{text}}
-  end
+  # macro describe(text)
+  #   @description = {{text}}
+  # end
 
   # Indicates which scene the user will go to after this
   # command is executed.

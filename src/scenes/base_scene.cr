@@ -4,10 +4,18 @@ require "annotation"
 
 # Provides some default commands for game scenes
 abstract struct Scenes::BaseScene < Scene
-  @commands = [Commands::KeyCommand.new("m", "m - Open Menu", Menu)] of Command
+  @commands = [Commands::KeyCommand.new("m", Menu)] of Command
 
   def goto(scene : Scene.class, name : String)
     @commands << Commands::Navigate.new(scene, name)
+  end
+
+  @[Override]
+  def has(thing : Thing)
+    super
+    thing.names.each do |n|
+      @commands << Commands::Examine.new(n, thing.description)
+    end
   end
 
   # Defines a scene to the east
@@ -20,6 +28,7 @@ abstract struct Scenes::BaseScene < Scene
   end
 
   def continue(scene : Scene.class)
-    @commands << Commands::Continue.new(scene)
+    puts "Press any key to continue..."
+    @commands << Commands::Noop.new(scene)
   end
 end

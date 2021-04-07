@@ -5,21 +5,14 @@ class Commands::KeyCommand < Command
   def initialize(@key : String, @scene : Scene.class | Nil)
   end
 
-  def initialize(@key : String, description : String, scene : Scene.class | Nil)
-    describe description
-    goto scene
-  end
-
-  def initialize(@key : String, description : String, sub_commands commands : Array(Command))
-    describe description
+  def initialize(@key : String, sub_commands commands : Array(Command))
     commands.each do |c|
-      sub_command c
+      @commands << c
     end
   end
 
-  def initialize(@key : String, @description : String, sub_command command : Command)
-    describe description
-    sub_command command
+  def initialize(@key : String, sub_command command : Command)
+    @commands << command
   end
 
   @[Override]

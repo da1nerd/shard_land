@@ -19,14 +19,21 @@ struct Scenes::Menu < Scene
     An RPG that is going to be amazing!
   
     Choose an option below:
+    n - Start a new game
+    o - Open an existing game
+    q - Quit program
     MSG
 
     can Commands::Menu::NewGame.new(MountainTop)
-    can Commands::Menu::SelectSavedGame.new(MountainTop)
+    can Commands::Menu::SelectSavedGame.new
     # TODO: this isn't the best way to check if a game is loaded
     if !state.character.name.empty?
-      can Commands::Menu::SaveGame.new(self.class)
-      can Commands::KeyCommand.new("r", "r - Resume Game", self.get_scene(state.scene))
+      describe <<-MSG
+      s - Save Game
+      r - Resume Game
+      MSG
+      can Commands::Menu::SaveGame.new
+      can Commands::KeyCommand.new("r", self.get_scene(state.scene))
     end
     can Commands::Menu::QuitGame.new
   end

@@ -1,9 +1,7 @@
-# A simple command that gives the player the option to continue to
-# the next scene by pressing any key.
-class Commands::Continue < Command
-  # Infers the scene name from the class name
+# A simple command simply navigates to a scene
+# after the user provides any input.
+class Commands::Noop < Command
   def initialize(@scene : Scene.class)
-    describe "Press any key to continue..."
   end
 
   @[Override]

@@ -2,7 +2,6 @@
 module Commands::Menu
   class NewGame < Command
     def initialize(scene : Scene.class)
-      describe "n - Start a new game"
       sub_command GetCharacterName.new(scene)
     end
 
@@ -13,7 +12,7 @@ module Commands::Menu
 
     @[Override]
     def execute(state : State, user_input : String?) : State
-      puts "We need to ask you a few questions first:"
+      puts "What is your name?"
       return state
     end
   end

@@ -1,9 +1,7 @@
 class Commands::Menu::LoadSavedGame < Command
   @game_index : String
 
-  def initialize(@save_path : String, @game_index : String, description, default_scene : Scene.class)
-    describe description
-    goto default_scene
+  def initialize(@save_path : String, @game_index : String, description)
   end
 
   @[Override]
@@ -21,6 +19,8 @@ class Commands::Menu::LoadSavedGame < Command
       when "{{s.name}}"
         @scene = {{s}}
       {% end %}
+      else
+        puts "The saved game is corrupt."
       end
     {% end %}
     return new_state
