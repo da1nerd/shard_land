@@ -43,7 +43,7 @@ abstract struct Scene
   # end
   # ```
   #
-  abstract def render(state : State)
+  abstract def run(state : State)
 
   # Renders the list of *commands* and returns the command chosen by the user.
   private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)
@@ -112,11 +112,11 @@ abstract struct Scene
   end
 
   # Execute the scene and return the next scene and state
-  def run(state : State) : Tuple(Scene, State)
+  def execute(state : State) : Tuple(Scene, State)
     state = self.before(state)
     puts "### #{title} ###"
     puts description(state)
-    render(state)
+    run(state)
     command, state = self.render_commands(state, @commands)
 
     # run until the scene changes or the game ends
@@ -128,6 +128,7 @@ abstract struct Scene
       self.after(state)
       return {scene.new, state}
     else
+      # the game is over
       return {self.class.new, state}
     end
   end

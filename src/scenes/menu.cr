@@ -28,6 +28,7 @@ struct Scenes::Menu < Scene
     MSG
     if !state.character.name.empty?
       message += <<-MSG
+      
       s - Save Game
       r - Resume Game
       MSG
@@ -36,7 +37,7 @@ struct Scenes::Menu < Scene
   end
 
   @[Override]
-  def render(state : State)
+  def run(state : State)
     can Commands::Menu::NewGame.new(MountainTop)
     can Commands::Menu::SelectSavedGame.new
     # TODO: this isn't the best way to check if a game is loaded

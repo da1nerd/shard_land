@@ -17,7 +17,7 @@ abstract struct Scenes::BaseScene < Scene
   end
 
   @[Override]
-  def render(state : State)
+  def run(state : State)
     @commands << Commands::KeyCommand.new("menu", Menu)
     @commands << Commands::Look.new(description(state))
   end
@@ -25,6 +25,7 @@ abstract struct Scenes::BaseScene < Scene
   private macro define_direction(name, *aliases)
     # Defines a scene to the {{name.id}}
     def {{name.id}}(scene : Scene.class, description : String)
+      # TODO: also support variations of go to [scene name]
       options = [
         {{name.id.stringify}},
         "go {{name.id}}",

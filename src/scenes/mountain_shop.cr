@@ -9,6 +9,6 @@ struct Scenes::MountainShop < Scenes::BaseScene
     MSG
   end
 
-  def render(state : State)
+  def run(state : State)
   end
 end

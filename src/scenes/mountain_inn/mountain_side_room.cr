@@ -10,7 +10,7 @@ struct Scenes::MountainSideRoom < Scenes::BaseScene
   end
 
   @[Override]
-  def render(state : State)
+  def run(state : State)
     continue MountainInnMorning
   end
 end

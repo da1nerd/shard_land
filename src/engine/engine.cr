@@ -13,6 +13,6 @@ def start_game(starting_scene : Scene.class)
   scene = starting_scene.new
   loop do
     break unless state.running
-    scene, state = scene.run(state)
+    scene, state = scene.execute(state)
   end
 end

@@ -8,6 +8,6 @@ struct Scenes::MountainInnMorning < Scenes::BaseScene
   end
 
   @[Override]
-  def render(state : State)
+  def run(state : State)
   end
 end
