@@ -1,15 +1,21 @@
 require "../engine/*"
 
 struct Canister < Thing
-  def names : Array(String)
+  @[Override]
+  def name : String
+    "round flat canister"
+  end
+
+  @[Override]
+  def aliases : Array(String)
     [
-      "canister",
       "flat canister",
       "round canister",
       "can",
     ]
   end
 
+  @[Override]
   def description : String
     "A round flat canister about the size of your hand. It looks as if it can be connected to something."
   end

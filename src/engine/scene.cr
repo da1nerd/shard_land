@@ -8,14 +8,15 @@ require "./state.cr"
 abstract struct Scene
   @commands = [] of Command
 
-  def describe(description)
-    puts description
-  end
+  # Returns a description of the scene
+  abstract def description(state : State) : String
 
   # Adds a `Thing` to the scene.
   # Players will be able to interact with the *thing*.
   def has(thing : Thing)
-    @commands << Interaction.new(thing.class.name, thing)
+    thing.names.each do |n|
+      @commands << Interaction.new(n, thing)
+    end
   end
 
   # Adds a `Command` that can be performed in the scene
@@ -107,6 +108,7 @@ abstract struct Scene
   # Execute the scene and return the next scene and state
   def run(state : State) : Tuple(Scene, State)
     state = self.before(state)
+    puts description(state)
     render(state)
     command, state = self.render_commands(state, @commands)
 

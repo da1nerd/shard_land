@@ -3,9 +3,8 @@ require "./mountain_inn/*"
 require "annotation"
 
 struct Scenes::MountainInn < Scenes::BaseScene
-  @[Override]
-  def render(state : State)
-    describe <<-MSG
+  def description(state : State) : String
+    return <<-MSG
     You walk into a drafty room with a fire roaring in the corner.
     The Inn keeper sits behind a desk, and a flight of stairs leading upstairs is to the left of him.
     The inn keeper looks at you with a quizickle expression as you walk into the inn.
@@ -16,7 +15,10 @@ struct Scenes::MountainInn < Scenes::BaseScene
     "No worries son" Says the Inn keeper in response to your look of shock.
     "It'll be a new life for you, a new start. I have two rooms available. Would you like to face the mountain or the valley?"
     MSG
+  end
 
+  @[Override]
+  def render(state : State)
     goto Scenes::MountainSideRoom, "mountain"
     goto Scenes::ValleySideRoom, "valley"
   end

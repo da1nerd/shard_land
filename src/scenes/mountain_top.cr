@@ -4,9 +4,8 @@ require "../things/canister.cr"
 
 module Scenes
   struct MountainTop < BaseScene
-    @[Override]
-    def render(state : State)
-      describe <<-MSG
+    def description(state : State) : String
+      return <<-MSG
       You are falling. The sky is shattering around you like glass. Blackness covers you. Then nothing.
 
       You awake, cold and aching. As you open your eyes you see the snowy sky above you... without cracks.
@@ -19,7 +18,10 @@ module Scenes
 
       There is a round flat canister here.
       MSG
+    end
 
+    @[Override]
+    def render(state : State)
       has Canister.new
       east MountainSettlement, "The trail is narrow and perilous, but it may be the only way down the mountain."
     end

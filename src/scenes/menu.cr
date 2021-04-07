@@ -9,9 +9,8 @@ require "annotation"
 # The menu *description* introduces the player to your game.
 # The *starting_scene* is where players will go first when starting a new game.
 struct Scenes::Menu < Scene
-  @[Override]
-  def render(state : State)
-    describe <<-MSG
+  def description(state : State) : String
+    message = <<-MSG
     **************
     * Shard Land *
     **************
@@ -23,15 +22,21 @@ struct Scenes::Menu < Scene
     o - Open an existing game
     q - Quit program
     MSG
+    if !state.character.name.empty?
+      message += <<-MSG
+      s - Save Game
+      r - Resume Game
+      MSG
+    end
+    return message
+  end
 
+  @[Override]
+  def render(state : State)
     can Commands::Menu::NewGame.new(MountainTop)
     can Commands::Menu::SelectSavedGame.new
     # TODO: this isn't the best way to check if a game is loaded
     if !state.character.name.empty?
-      describe <<-MSG
-      s - Save Game
-      r - Resume Game
-      MSG
       can Commands::Menu::SaveGame.new
       can Commands::KeyCommand.new("r", self.get_scene(state.scene))
     end
