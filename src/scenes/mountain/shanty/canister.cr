@@ -1,4 +1,4 @@
-require "../engine/*"
+require "../../../engine/*"
 
 struct Canister < Thing
   @[Override]

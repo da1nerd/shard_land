@@ -1,7 +1,6 @@
 require "annotation"
 require "../engine/*"
 require "../commands/*"
-require "../things/*"
 
 # Provides some default commands for game scenes
 abstract struct Scenes::BaseScene < Scene
