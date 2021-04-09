@@ -1,5 +1,4 @@
 require "./command.cr"
-require "./interaction.cr"
 require "./state.cr"
 
 # Represents a single scene in the game.
@@ -16,14 +15,6 @@ abstract struct Scene
   # Returns a description of the scene
   # The scene is described when a player enters it and when they "look" around.
   abstract def description(state : State) : String
-
-  # Adds a `Thing` to the scene.
-  # Players will be able to interact with the *thing*.
-  def has(thing : Thing)
-    thing.names.each do |n|
-      @commands << Interaction.new(n, thing)
-    end
-  end
 
   # Adds a `Command` that can be performed in the scene
   def can(command : Command)
@@ -44,12 +35,6 @@ abstract struct Scene
   # ```
   #
   abstract def run(state : State)
-
-  # Renders the list of *commands* and returns the command chosen by the user.
-  private def render_commands(state : State, commands : Array(Command)) : Tuple(Command, State)
-    # display_commands(state, commands)
-    return process_input(state, commands)
-  end
 
   # Processes the user input.
   # This will keep running until the user enters valid input.
@@ -77,7 +62,7 @@ abstract struct Scene
   private def execute_command(state : State, command : Command, user_input : String?) : Tuple(Command, State)
     new_state = command.execute(state, user_input)
     if command.commands.size > 0
-      return render_commands(new_state, command.commands)
+      return process_input(new_state, command.commands)
     else
       return {command, new_state}
     end
@@ -114,16 +99,25 @@ abstract struct Scene
   # Execute the scene and return the next scene and state
   def execute(state : State) : Tuple(Scene, State)
     state = self.before(state)
+
+    # describe the scene
     puts "### #{title} ###"
     puts description(state)
+    if state.running == false
+      # the game is over
+      return {self.class.new, state}
+    end
+
+    # setup the scene
     run(state)
-    command, state = self.render_commands(state, @commands)
+    command, state = self.process_input(state, @commands)
 
     # run until the scene changes or the game ends
     until command.next_scene || state.running == false
-      command, state = self.render_commands(state, @commands)
+      command, state = self.process_input(state, @commands)
     end
 
+    # proceed to the next scene
     if scene = command.next_scene
       self.after(state)
       return {scene.new, state}

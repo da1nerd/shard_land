@@ -1,9 +1,5 @@
-require "./command.cr"
-require "./thing.cr"
-require "annotation"
-
 # Defines some basic interactions that can be performed on things.
-class Interaction < Command
+class Commands::Take < Command
   @name : String
   @thing : Thing
 

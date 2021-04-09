@@ -1,3 +1,5 @@
+require "annotation"
+
 # A simple command simply navigates to a scene
 # after the user provides any input.
 class Commands::Noop < Command

@@ -1,6 +1,7 @@
-require "../engine/*"
-require "../commands/navigate.cr"
 require "annotation"
+require "../engine/*"
+require "../commands/*"
+require "../things/*"
 
 # Provides some default commands for game scenes
 abstract struct Scenes::BaseScene < Scene
@@ -8,10 +9,11 @@ abstract struct Scenes::BaseScene < Scene
     @commands << Commands::Navigate.new(scene, name)
   end
 
-  @[Override]
+  # Adds a `Thing` to the scene.
+  # Players will be able to interact with the *thing*.
   def has(thing : Thing)
-    super
     thing.names.each do |n|
+      @commands << Commands::Take.new(n, thing)
       @commands << Commands::Examine.new(n, thing.description)
     end
   end

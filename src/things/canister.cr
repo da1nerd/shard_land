@@ -12,6 +12,7 @@ struct Canister < Thing
       "small canister",
       "round canister",
       "can",
+      "canister",
     ]
   end
 

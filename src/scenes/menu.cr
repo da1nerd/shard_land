@@ -1,6 +1,6 @@
 require "../engine/*"
 require "../commands/*"
-require "./mountain_top.cr"
+require "./mountain/mountain_top.cr"
 require "annotation"
 
 # A special scene that provides some basic game controls to the user
@@ -38,7 +38,7 @@ struct Scenes::Menu < Scene
 
   @[Override]
   def run(state : State)
-    can Commands::Menu::NewGame.new(MountainTop)
+    can Commands::Menu::NewGame.new(Scenes::Mountain::MountainTop)
     can Commands::Menu::SelectSavedGame.new
     # TODO: this isn't the best way to check if a game is loaded
     if !state.character.name.empty?
