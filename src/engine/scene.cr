@@ -117,9 +117,10 @@ abstract struct Scene
       command, state = self.process_input(state, @commands)
     end
 
+    state = self.after(state)
+
     # proceed to the next scene
     if scene = command.next_scene
-      self.after(state)
       return {scene.new, state}
     else
       # the game is over
