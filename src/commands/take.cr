@@ -1,3 +1,5 @@
+require "../effect/take.cr"
+
 # Defines some basic interactions that can be performed on things.
 class Commands::Take < Command
   @name : String
@@ -18,8 +20,12 @@ class Commands::Take < Command
 
   @[Override]
   def execute(state : State, user_input : String?) : State
-    puts "Picked up #{@thing.name}"
-    # TODO: place the thing in the character's inventory
+    if @thing.is_a?(Effect::Take)
+      puts "Took #{@thing.name}"
+      return (@thing.as(Effect::Take)).take(state)
+    else
+      puts "Cannot take #{@thing.name}"
+    end
     return state
   end
 end
